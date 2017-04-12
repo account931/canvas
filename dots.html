@@ -1,0 +1,323 @@
+<!--  generate  random which  within  the var quantity --> 
+
+
+<!-- Varinats=> can  create an array  with (images/info), it  generates  at once , and  show  info  pop-up  onclick;
+#u  can  use  2  variants=1.)games with multiple  circle(have  to  find  a prized  one with min click++)
+   2.) soc  profiles  with pop-up  display  info;
+-->
+<!DOCTYPE html>
+<html>
+<head>
+
+
+<style>
+/*body{background:cyan;}*/
+
+.circle { /*round  cirles  generated*/
+border: 2px  solid  red;
+background-color:red;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;}
+
+.circle2 {border: 2px  solid  red;
+background-color:red;
+  border-radius: 20%;
+  -webkit-border-radius: 20%;
+  -moz-border-radius: 20%;padding:2px;}
+
+#panelHiddenStart{background:yellow;  width:90%;height:550px;z-index:99; margin: 0 auto; position:relative;}
+
+
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+
+
+<script>
+
+// **************************************************************************************
+// **************************************************************************************
+// **                                                                                  **
+// **                                                                                  **
+
+
+$(document).ready(function(){
+var  count=0;//declare  var   counting  clicking;
+var arrayB=new  Array("zero","one","two","three","four","five");//array  with  information, that  would  be  displayed  after  clicking  a perticular  circle(actually  fot  Soc  Profile  more  likely), in this  part  can  be  used????;
+
+//image  array-how  to implement?
+var arrayImage=new  Array("icon.png");
+//END image  array-how  to implement?
+
+
+
+
+//click on  circle;
+    $(document).on("click", '.circle', function() {   // this  click  is  used  to   react  to  newly generated cicles;
+      // $(".circle").click(function(){     // temporary  disabled;
+          /*var*/ window.id=$(this).attr('id'); //  get the  id  of  clicked(i.e  numberX);
+          var numb=id.substring(6);alert("id=> "+numb);//id-mumber[i] ,  so  we  cut  first  6   letters  to  get  pure  digits;
+
+
+//Check  if  this  array  element (with this  number )(in arrayB[])  exists;  NOT USED???-FOR  SOC.PROFILE onl?????
+  if(typeof arrayB[numb] === 'undefined') {
+        var info="NOT  EXIST";  // does not exist
+}
+else {
+    // does exist
+       var info=arrayB[numb];
+}
+////END Check  if  this  arry  element  exisss
+
+
+       // var info=arrayB[numb];//  get  the  info  from array -CAN BE EREASED? Confirm  DELTION???!!!;
+        alert(id + "\n"+info);
+   // assign  a picture  to  clicked;
+     var img=arrayImage[0]; //  just  for  test,  use arrayImage[numb];
+     $(this).css("background", "url("+   arrayImage[0]+")");
+     $(this).animate({ borderWidth: "2px green"},2500);//not  working
+
+
+//Find  the  position (for  future  pop-up)
+var top=$(this).offset().top;  var left=$(this).offset().left;  //alert("Top ="+top+ "; Left= "+left);
+
+
+//  Pop UP CREATE  ?????  Have  to  make  all  class  with  different  names;
+         //var circle2=circle2+id;
+         var circle2 = document.createElement("div");
+         circle2.className = "circle2";//+id;  // circle2.style.display = "none"; //all  generated  on 1st circle value, except  for  JQ  show;
+    var widthC = 40;
+    var heightC =40;
+          var popUpId="#hidd"+id+""; // creates  an ID  for  JQ  SELECTOR;
+         circle2.id = "hidd"+id; //assign  id; 
+         circle2.style.display = "none"; //hid  it
+         circle2.style.position = "absolute";
+         circle2.style.left = left+"px";
+         circle2.style.top = top-30+"px";
+         circle2.style.backgroundColor = "yellow";
+         circle2.style.width = widthC + "px";
+         circle2.style.height = heightC + "px";
+         //circles.push(circle);
+         document.body.appendChild(circle2);
+         $(popUpId).html(numb);//was  var id; // $(".circle2").html(info);//  html  with infro  from  array
+         $(popUpId).show(2000);
+// END Pop UP CREATE
+
+
+//3rd Aug  compare IF  U  WIN
+var nX = numb.toString();var m = window.randomX.toString();
+if(nX==m)
+  {alert("Compare  True");
+    $(this).css({ "background":"url(images/PREV_win.jpg","width":"180px","height":"180px","z-index":"199" }); $(popUpId).html("Win");
+    $(this).animate({  width: "180px",height:"180px", marginLeft: "0.6in", fontSize: "3em", borderWidth: "10px" }, 2500 );
+
+
+
+  }   
+else {alert(nX+" vs "+m+" Compare FALSE")}
+// End  3rd  Aug compare
+
+   // Compare  Random  to  Clicked  id --CONFIRM DELETE-as  it  dublicates??
+//var n = numb.localeCompare(window.randomX);alert("n=>  "+n);// it is  an  alternative  comparison , 
+
+//Confirm DELETE????
+/*alert("Compare "+ numb +" vs "+ window.randomX);
+if(parseInt(numb).valueOf() === parseInt(window.randomX.valueOf())){alert("+++");} else{alert("-");} */
+
+   // ENd  Compare  Random  to  Clicked  id
+
+++count;
+$("#cickedAttempts").html(count);
+
+
+    }); //  end  click---------------------------------------------------------
+
+
+//Hide  the  PAnel
+$("#panelButton").click(function(){
+        $("#panelHiddenStart").hide(2000); 
+          //Generate();
+    });
+// END //Hide  the  PAnel
+
+
+// On Change (Game  Levels)(EAsy, MEdium, HArdcore); Comfirm  to  DELETE var quantity  ???-No-as for  the  1st  usage  it  dos not  have  Local  Staorage  value;
+$("#select").change(function(){  //if  u  change  SELECT  
+    var valueX=$("#select").val(); //get  value;
+       if(valueX=='hardcore'){
+          quantity=88; //number of  circles; 
+            localStorage.setItem("LEVEL", "hardcore");// storing  to  remember SELECT OPTION;
+// see  Bottomm  for  details=> SAVING  SELECT;
+
+
+
+
+ 
+   
+           //sessionStorage.setItem('locStorage', 'quantity');  can  save  to Local  Storge;  NOT  DONE!!!!!!
+           // var clicked = sessionStorage.getItem('clicked');  //  to  check  its  value;
+           $(".circle,.circle2").remove(); //  remove  all  prev  added  circles&pop-ups;
+           Generate(); }
+    
+ if(valueX=='easy'){
+          quantity=5; //number of  circles;
+          localStorage.setItem("LEVEL", "easy");// storing  to  remember SELECT OPTION;
+          $(".circle,.circle2").remove(); //  remove  all  prev  added  circles&pop-ups;
+          Generate(); }
+
+if(valueX=='medium'){
+          quantity=25; //number of  circles;
+          localStorage.setItem("LEVEL", "medium");// storing  to  remember SELECT OPTION;
+          $(".circle,.circle2").remove(); //  remove  all  prev  added  circles&pop-ups;
+          Generate(); }
+
+      RandomMath(); //  generates  random  number  within a  new  range;
+     
+});
+//  END onChange
+
+
+
+
+
+
+
+
+
+    
+});// END document.ready();
+// **                                                                                  **
+// **                                                                                  **
+// **************************************************************************************
+// **************************************************************************************
+
+</script>
+</head>
+<body>
+<!--<div id="wrapper" style="width:88%;border:3px  solid black;">-->
+
+<button onclick="location.reload();">Reload</button>
+<select id="select" name="selectLevel">
+  <option value="easy">Easy</option>
+  <option value="medium">Medium</option>
+  <option value="hardcore">Hardcore</option>
+ </select>
+<div id="cickedAttempts" style="position:absolute;top:0px;right:-28px;border:1px  solid  black;width:11px;"></di><!--  counts  clicking-->
+<!--
+<div id="panelHiddenStart">
+ <center>
+ <button id="panelButton">START</button>
+ </br>Select  level</br>
+ <select>
+  <option value="volvo">Easy</option>
+  <option value="saab">Medium</option>
+  <option value="opel">Hardcore</option>
+ </select>
+ </center>
+</div>-->
+
+
+
+<!--<canvas id="myCanvas" width="600" height="200" style="border:1px solid #d3d3d3;">
+Your browser does not support the HTML5 canvas tag.</canvas>-->
+
+<script>
+
+/*var c = document.getElementById("myCanvas");
+var ctx = c.getContext("2d");
+ctx.beginPath();
+ctx.arc(65,50,20,0,2*Math.PI);
+ctx.stroke();
+
+
+
+var ctx2 = c.getContext("2d");
+ctx2.beginPath();
+ctx2.arc(135,50,20,0,2*Math.PI);
+ctx2.stroke();*/
+
+
+
+
+// **************************************************************************************
+// **************************************************************************************
+// **                                                                                  **
+// **                                                                                  **
+
+
+var quantity = 5, /*25*/
+    width = 60,
+    height = 60
+    circles = [];
+
+//Check Local  Storage  Values  to save  the  selectt_option  state
+ var LocalStorageVAlue = localStorage.getItem("LEVEL"); //  Local  var with  with <select><option>  saved  state;
+ alert("LocStorge=> "+LocalStorageVAlue);
+    if(LocalStorageVAlue=="hardcore")
+           {$('[name=selectLevel]').val( 'hardcore' );quantity = 88;/*RandomMath();*/}
+    else if (LocalStorageVAlue=="easy")
+           {$('[name=selectLevel]').val( 'easy' );quantity = 5; /* RandomMath();*/}
+    else if (LocalStorageVAlue=="medium")
+           {$('[name=selectLevel]').val( 'medium' );quantity = 25; /*RandomMath();*/}
+//  END  Check Local  Storage  Values  to save  the  selectt_option  state   
+
+
+
+
+
+function Generate() {
+    for(var i = 0; i < quantity; i++) {   
+         var circle = document.createElement("div");
+         circle.className = "circle";
+         circle.id = "number"+(i+1); //assign  id; we  add(i+1), to  have  ids  from 1-quantity, not  from (0-quantity), use brackets , as  otherwise it  produces number01, 11,21,31
+         circle.style.position = "absolute";
+         circle.style.left = Math.floor((Math.random() * 100)) + "%";
+         circle.style.top = Math.floor((Math.random() * 100)) + "%";
+         circle.style.backgroundColor = "black";
+         circle.style.width = width + "px";
+         circle.style.height = height + "px";
+         circle.style.backgroundColor = "pink";
+         circles.push(circle);
+         document.body.appendChild(circle); //RETURN!!!! 
+          //document.getElementById('wrapper').appendChild(circle);
+// we  can  additionally  create   hidden elements;???
+    }
+}
+
+//call  the  funct
+Generate();  //TEMPORARY
+
+
+function RandomMath(){
+//generates  random  number
+//DUBLICATE!!!! Confirm  DELETION???-NO!!!!!!!!!!!!
+window.randomX=Math.floor((Math.random() * quantity) + 1);// within the  range  specified  in  var  quantity
+alert("random= "+randomX);
+}
+RandomMath();
+// **                                                                                  **
+// **                                                                                  **
+// **************************************************************************************
+// **************************************************************************************
+
+
+
+
+
+</script>
+</div> <!--  div id="wrapper" -->
+</body>
+</html>
+
+
+<!--SAVING  SELECT NOT IMPLEMENTED  AT ALL-->
+<!-- var select = document.getElementById("Sort");
+var selectedItem = select.options[select.selectedIndex].value;
+createCookie("selectedItem",selectedItem);
+then read the cookie to retrieve the value and select the option in the select box, like this:
+
+var selectedItem = readCookie("selectedItem");
+var select = document.getElementById("Sort");
+select.value = selectedItem;
+  -->
